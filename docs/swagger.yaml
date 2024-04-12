@@ -1,0 +1,140 @@
+definitions:
+  domain.Car:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: integer
+      lastUpdated:
+        type: string
+      mark:
+        type: string
+      model:
+        type: string
+      owner:
+        $ref: '#/definitions/domain.People'
+      regNums:
+        items:
+          type: string
+        type: array
+      year:
+        type: integer
+    type: object
+  domain.People:
+    properties:
+      name:
+        type: string
+      patronymic:
+        type: string
+      surname:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /cars:
+    get:
+      consumes:
+      - application/json
+      description: Get all cars
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Car'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: json
+      summary: Get cars
+    post:
+      consumes:
+      - application/json
+      description: Create a new car
+      parameters:
+      - description: Car object
+        in: body
+        name: car
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Car'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: car created successfully
+          schema:
+            type: json
+        "400":
+          description: Bad Request
+          schema:
+            type: json
+        "500":
+          description: Internal Server Error
+          schema:
+            type: json
+      summary: Create a new car
+  /cars/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a car by ID
+      parameters:
+      - description: Car ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: deleted successfully
+          schema:
+            type: json
+        "400":
+          description: Bad Request
+          schema:
+            type: json
+        "500":
+          description: Internal Server Error
+          schema:
+            type: json
+      summary: Delete a car
+    put:
+      consumes:
+      - application/json
+      description: Update a car by ID
+      parameters:
+      - description: Car ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Car object
+        in: body
+        name: car
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Car'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: car updated successfully
+          schema:
+            type: json
+        "400":
+          description: Bad Request
+          schema:
+            type: json
+        "500":
+          description: Internal Server Error
+          schema:
+            type: json
+      summary: Update a car
+swagger: "2.0"
